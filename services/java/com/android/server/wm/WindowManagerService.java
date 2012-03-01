@@ -224,7 +224,7 @@ public class WindowManagerService extends IWindowManager.Stub
     /** Amount of time (in milliseconds) to animate the fade-in-out transition for
      * compatible windows.
      */
-    static final int DEFAULT_FADE_IN_OUT_DURATION = 400;
+    static final int DEFAULT_FADE_IN_OUT_DURATION = 200;
 
     /**
      * If true, the window manager will do its own custom freezing and general

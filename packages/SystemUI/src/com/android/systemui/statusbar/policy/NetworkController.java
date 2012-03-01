@@ -155,7 +155,7 @@ public class NetworkController extends BroadcastReceiver {
     IBatteryStats mBatteryStats;
 
     public interface SignalCluster {
-        void setWifiIndicators(boolean visible, int strengthIcon, int activityIcon,
+        void setWifiIndicators(boolean visible, int strengthIcon, int activityIcon, 
                 String contentDescription);
         void setMobileDataIndicators(boolean visible, int strengthIcon, int activityIcon,
                 int typeIcon, String contentDescription, String typeContentDescription);
@@ -342,10 +342,11 @@ public class NetworkController extends BroadcastReceiver {
         @Override
         public void onSignalStrengthsChanged(SignalStrength signalStrength) {
             if (DEBUG) {
-                Slog.d(TAG, "onSignalStrengthsChanged signalStrength=" + signalStrength +
+                Slog.d(TAG, "onSignalStrengthsChanged signalStrength=" + signalStrength + 
                     ((signalStrength == null) ? "" : (" level=" + signalStrength.getLevel())));
             }
             mSignalStrength = signalStrength;
+            mSignalStrength.setContext(mContext);
             updateTelephonySignalStrength();
             refreshViews();
         }
@@ -477,9 +478,7 @@ public class NetworkController extends BroadcastReceiver {
             } else {
                 int iconLevel;
                 int[] iconList;
-                mLastSignalLevel = iconLevel = (useSixBar) ?
-                        mSignalStrength.getSixBarLevel() : mSignalStrength.getLevel();
-
+                mLastSignalLevel = iconLevel = mSignalStrength.getLevel();
                 if (isCdma()) {
                     if (isCdmaEri()) {
                         if (useSixBar) {
@@ -963,7 +962,6 @@ public class NetworkController extends BroadcastReceiver {
                 }
             }
 
-            mDataTypeIconId = 0;
             combinedActivityIconId = mWifiActivityIconId;
             combinedSignalIconId = mWifiIconId; // set by updateWifiIcons()
             mContentDescriptionCombinedSignal = mContentDescriptionWifi;

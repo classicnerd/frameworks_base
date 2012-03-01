@@ -132,9 +132,9 @@ public class CalendarView extends FrameLayout {
     /**
      * The default maximal date.
      */
-    private static final String DEFAULT_MAX_DATE = "01/01/2100";
+    private static final String DEFAULT_MAX_DATE = "01/01/2200";
 
-    private static final int DEFAULT_SHOWN_WEEK_COUNT = 6;
+    private static final int DEFAULT_SHOWN_WEEK_COUNT = 8;
 
     private static final int DEFAULT_DATE_TEXT_SIZE = 14;
 
@@ -481,10 +481,10 @@ public class CalendarView extends FrameLayout {
 
     /**
      * Gets the maximal date supported by this {@link CalendarView} in milliseconds
-     * since January 1, 1970 00:00:00 in {@link TimeZone#getDefault()} time
+     * since January 1, 2012 00:00:00 in {@link TimeZone#getDefault()} time
      * zone.
      * <p>
-     * Note: The default maximal date is 01/01/2100.
+     * Note: The default maximal date is 01/01/2200.
      * <p>
      *
      * @return The maximal supported date.
@@ -495,7 +495,7 @@ public class CalendarView extends FrameLayout {
 
     /**
      * Sets the maximal date supported by this {@link CalendarView} in milliseconds
-     * since January 1, 1970 00:00:00 in {@link TimeZone#getDefault()} time
+     * since January 1, 2012 00:00:00 in {@link TimeZone#getDefault()} time
      * zone.
      *
      * @param maxDate The maximal supported date.

@@ -89,7 +89,7 @@ public class ZoomControls extends LinearLayout {
     
     private void fade(int visibility, float startAlpha, float endAlpha) {
         AlphaAnimation anim = new AlphaAnimation(startAlpha, endAlpha);
-        anim.setDuration(500);
+        anim.setDuration(250);
         startAnimation(anim);
         setVisibility(visibility);
     }

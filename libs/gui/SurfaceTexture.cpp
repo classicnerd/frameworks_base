@@ -506,11 +506,6 @@ status_t SurfaceTexture::dequeueBuffer(int *outBuf, uint32_t w, uint32_t h,
 #endif
 	   ((uint32_t(buffer->usage) & usage) != usage))
 	{
-#ifdef QCOM_HARDWARE
-            if (buffer != NULL) {
-                mGraphicBufferAlloc->freeGraphicBufferAtIndex(buf);
-            }
-#endif
             usage |= GraphicBuffer::USAGE_HW_TEXTURE;
             status_t error;
             sp<GraphicBuffer> graphicBuffer(
@@ -807,14 +802,16 @@ status_t SurfaceTexture::performQcomOperation(int operation, int arg1, int arg2,
      ST_LOGV("SurfaceTexture::performQcomOperation operation=%d", operation);
 
      switch(operation) {
-        case NATIVE_WINDOW_SET_BUFFERS_SIZE:
-            mReqSize = arg1;
-            break;
-        case NATIVE_WINDOW_UPDATE_BUFFERS_GEOMETRY:
+#ifdef QCOM_HARDWARE
+	case NATIVE_WINDOW_SET_BUFFERS_SIZE:
+	    mReqSize = arg1;
+	    break;
+	case NATIVE_WINDOW_UPDATE_BUFFERS_GEOMETRY:
             mNextBufferInfo.width = arg1;
             mNextBufferInfo.height = arg2;
             mNextBufferInfo.format = arg3;
             break;
+#endif
         default: return BAD_VALUE;
      };
      return OK;
@@ -1107,9 +1104,6 @@ void SurfaceTexture::freeAllBuffersLocked() {
     for (int i = 0; i < NUM_BUFFER_SLOTS; i++) {
         freeBufferLocked(i);
     }
-#ifdef QCOM_HARDWARE
-    mGraphicBufferAlloc->freeAllGraphicBuffersExcept(-1);
-#endif
 }
 
 void SurfaceTexture::freeAllBuffersExceptHeadLocked() {
@@ -1126,9 +1120,6 @@ void SurfaceTexture::freeAllBuffersExceptHeadLocked() {
             freeBufferLocked(i);
         }
     }
-#ifdef QCOM_HARDWARE
-    mGraphicBufferAlloc->freeAllGraphicBuffersExcept(head);
-#endif
 }
 
 status_t SurfaceTexture::drainQueueLocked() {

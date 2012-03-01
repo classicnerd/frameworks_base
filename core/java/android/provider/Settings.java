@@ -1960,11 +1960,11 @@ public final class Settings {
 
         /**
         * Lockscreen custom app array
-        *
+        * 
         * 1 [0] - Left
         * 2 [1] - Right
         * 3 [2] - Top
-        *
+        * 
         * @hide
         */
         public static final String[] LOCKSCREEN_CUSTOM_APP_ACTIVITIES = new String[] {
@@ -1982,31 +1982,10 @@ public final class Settings {
         public static final String SELECTED_TOOLBOX_WIDGETS = "selected_toolbox_widgets";
 
         /**
-         * Integer that sets the max widgets per line (does not apply to one-line widgets).
-         * @hide
-         */
-
-        public static final String MAX_WIDGETS_PER_LINE = "max_widgets_per_line";
-
-        /**
-         * Boolean to toggle whether or not to use the notification toolbox.
-         * @hide
-         */
-
-        public static final String USE_NOTIFICATION_TOOLBOX = "use_notification_toolbox";
-
-        /**
          * Enable/Disable lockscreen volume button music controls to change media tracks.
          * @hide
          */
         public static final String LOCKSCREEN_MUSIC_CONTROLS_VOLBTN = "lockscreen_music_controls_volbtn";
-
-        /**
-         * Toggle to set notification dropdown view
-         * Notifications(default) or Toolbox
-         * @hide
-         */
-          public static final String NOTIFICATION_DROPDOWN_VIEW = "notification_dropdown_view";
 
         /**
           * Statusbar toggle for 6 bar signal strength.

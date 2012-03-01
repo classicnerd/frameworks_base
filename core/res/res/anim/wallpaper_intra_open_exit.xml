@@ -25,5 +25,5 @@
             android:interpolator="@interpolator/decelerate_cubic"
             android:fillEnabled="true"
             android:fillBefore="true" android:fillAfter="true"
-            android:duration="280"/>
+            android:duration="140"/>
 </set>

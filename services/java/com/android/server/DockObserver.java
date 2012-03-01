@@ -103,7 +103,7 @@ class DockObserver extends UEventObserver {
 
         try {
             FileReader file = new FileReader(DOCK_STATE_PATH);
-            int len = file.read(buffer, 0, 1024);
+            int len = file.read(buffer, 0, 3072);
             file.close();
             mPreviousDockState = mDockState = Integer.valueOf((new String(buffer, 0, len)).trim());
         } catch (FileNotFoundException e) {

@@ -7,12 +7,12 @@ Second Frame
 <alpha
 android:fromAlpha="1.0"
 android:toAlpha="0.5"
-android:duration="300"
+android:duration="150"
 />
 <translate
 android:interpolator="@android:anim/accelerate_interpolator"
 android:fromXDelta="0"
 android:toXDelta="-100%"
-android:duration="350"
+android:duration="175"
 />
 </set>

@@ -87,7 +87,7 @@ public final class HttpDateTime {
 
         int date = 1;
         int month = Calendar.JANUARY;
-        int year = 1970;
+        int year = 2012;
         TimeOfDay timeOfDay;
 
         Matcher rfcMatcher = HTTP_DATE_RFC_PATTERN.matcher(timeString);

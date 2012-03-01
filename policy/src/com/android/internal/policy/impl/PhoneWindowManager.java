@@ -162,7 +162,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     // Whether to allow dock apps with METADATA_DOCK_HOME to temporarily take over the Home key.
     // No longer recommended for desk docks; still useful in car docks.
     static final boolean ENABLE_CAR_DOCK_HOME_CAPTURE = true;
-    static final boolean ENABLE_DESK_DOCK_HOME_CAPTURE = false;
+    static final boolean ENABLE_DESK_DOCK_HOME_CAPTURE = true;
 
     static final int LONG_PRESS_POWER_NOTHING = 0;
     static final int LONG_PRESS_POWER_GLOBAL_ACTIONS = 1;
@@ -319,23 +319,23 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     int mUiMode = Configuration.UI_MODE_TYPE_NORMAL;
     int mDockMode = Intent.EXTRA_DOCK_STATE_UNDOCKED;
     int mLidOpenRotation;
-    int mCarDockRotation;
-    int mDeskDockRotation;
+    int mCarDockRotation = 0;
+    int mDeskDockRotation = 0;
     int mHdmiRotation;
 
     int mUserRotationMode = WindowManagerPolicy.USER_ROTATION_FREE;
     int mUserRotation = Surface.ROTATION_0;
 
     int mAllowAllRotations = -1;
-    boolean mCarDockEnablesAccelerometer;
-    boolean mDeskDockEnablesAccelerometer;
+    boolean mCarDockEnablesAccelerometer = true;
+    boolean mDeskDockEnablesAccelerometer = true;
     int mLidKeyboardAccessibility;
     int mLidNavigationAccessibility;
     int mLongPressOnPowerBehavior = -1;
     boolean mScreenOnEarly = false;
     boolean mScreenOnFully = false;
     int mScreenOffReason;
-    boolean mOrientationSensorEnabled = false;
+    boolean mOrientationSensorEnabled = true;
     int mCurrentAppOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED;
     static final int DEFAULT_ACCELEROMETER_ROTATION = 0;
     int mAccelerometerDefault = DEFAULT_ACCELEROMETER_ROTATION;
@@ -1684,9 +1684,13 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             }
             return 0;
         } else if (keyCode == KeyEvent.KEYCODE_APP_SWITCH) {
-            if (down && repeatCount == 0) {
-                showOrHideRecentAppsDialog(RECENT_APPS_BEHAVIOR_SHOW_OR_DISMISS);
+            if (down && repeatCount == 0 && !keyguardOn) {
+            try {
+                mStatusBarService.toggleRecentApps();
+            } catch (RemoteException e) {
+                Slog.e(TAG, "RemoteException when showing recent apps", e);
             }
+        }
             return -1;
         }
 

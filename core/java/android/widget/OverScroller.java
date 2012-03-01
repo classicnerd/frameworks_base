@@ -39,7 +39,7 @@ public class OverScroller {
 
     private final boolean mFlywheel;
 
-    private static final int DEFAULT_DURATION = 250;
+    private static final int DEFAULT_DURATION = 125;
     private static final int SCROLL_MODE = 0;
     private static final int FLING_MODE = 1;
 

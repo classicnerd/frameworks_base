@@ -33,7 +33,6 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 
 import com.android.systemui.R;
 
@@ -54,7 +53,6 @@ public class NotificationPanel extends RelativeLayout implements StatusBarPanel,
     ViewGroup mContentFrame;
     Rect mContentArea = new Rect();
     View mSettingsView;
-    ScrollView mScrollView;
     ViewGroup mContentParent;
     TabletStatusBar mBar;
     View mClearButton;
@@ -117,7 +115,7 @@ public class NotificationPanel extends RelativeLayout implements StatusBarPanel,
 
     public void show(boolean show, boolean animate) {
         if (show && !mShowing) {
-            setContentFrameVisible(mScrollView != null || mNotificationCount > 0, false);
+            setContentFrameVisible(mSettingsView != null || mNotificationCount > 0, false);
         }
 
         if (animate) {
@@ -166,7 +164,7 @@ public class NotificationPanel extends RelativeLayout implements StatusBarPanel,
         super.onVisibilityChanged(v, vis);
         // when we hide, put back the notifications
         if (vis != View.VISIBLE) {
-            if (mScrollView != null) removeSettingsView();
+            if (mSettingsView != null) removeSettingsView();
             mNotificationScroller.setVisibility(View.VISIBLE);
             mNotificationScroller.setAlpha(1f);
             mNotificationScroller.scrollTo(0, 0);
@@ -198,7 +196,7 @@ public class NotificationPanel extends RelativeLayout implements StatusBarPanel,
     @Override
     public void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-
+        
         if (DEBUG) {
             Slog.d(TAG, String.format("PANEL: onSizeChanged: (%d -> %d, %d -> %d)",
                         oldw, w, oldh, h));
@@ -217,7 +215,7 @@ public class NotificationPanel extends RelativeLayout implements StatusBarPanel,
         if (!mShowing) {
             // just do it, already
             setContentFrameVisible(n > 0, false);
-        } else if (mScrollView== null) {
+        } else if (mSettingsView == null) {
             // we're looking at the notifications; time to maybe make some changes
             if ((mNotificationCount > 0) != (n > 0)) {
                 setContentFrameVisible(n > 0, true);
@@ -264,13 +262,13 @@ public class NotificationPanel extends RelativeLayout implements StatusBarPanel,
 
     public void swapPanels() {
         final View toShow, toHide;
-        if (mScrollView == null) {
+        if (mSettingsView == null) {
             addSettingsView();
-            toShow = mScrollView;
+            toShow = mSettingsView;
             toHide = mNotificationScroller;
         } else {
             toShow = mNotificationScroller;
-            toHide = mScrollView;
+            toHide = mSettingsView;
         }
         Animator a = ObjectAnimator.ofFloat(toHide, "alpha", 1f, 0f)
                 .setDuration(PANEL_FADE_DURATION);
@@ -281,17 +279,17 @@ public class NotificationPanel extends RelativeLayout implements StatusBarPanel,
                 if (toShow != null) {
                     if (mNotificationCount == 0) {
                         // show the frame for settings, hide for notifications
-                        setContentFrameVisible(toShow == mScrollView, true);
+                        setContentFrameVisible(toShow == mSettingsView, true);
                     }
 
                     toShow.setVisibility(View.VISIBLE);
-                    if (toShow == mScrollView || mNotificationCount > 0) {
+                    if (toShow == mSettingsView || mNotificationCount > 0) {
                         ObjectAnimator.ofFloat(toShow, "alpha", 0f, 1f)
                                 .setDuration(PANEL_FADE_DURATION)
                                 .start();
                     }
 
-                    if (toHide == mScrollView) {
+                    if (toHide == mSettingsView) {
                         removeSettingsView();
                     }
                 }
@@ -301,10 +299,10 @@ public class NotificationPanel extends RelativeLayout implements StatusBarPanel,
         });
         a.start();
     }
-
+ 
     public void updateClearButton() {
         if (mBar != null) {
-            final boolean showX
+            final boolean showX 
                 = (isShowing()
                         && mHasClearableNotifications
                         && mNotificationScroller.getVisibility() == View.VISIBLE);
@@ -317,14 +315,14 @@ public class NotificationPanel extends RelativeLayout implements StatusBarPanel,
     }
 
     public void updatePanelModeButtons() {
-        final boolean settingsVisible = (mScrollView != null);
+        final boolean settingsVisible = (mSettingsView != null);
         mSettingsButton.setVisibility(!settingsVisible ? View.VISIBLE : View.INVISIBLE);
         mNotificationButton.setVisibility(settingsVisible ? View.VISIBLE : View.INVISIBLE);
     }
 
     public boolean isInContentArea(int x, int y) {
         mContentArea.left = mTitleArea.getLeft() + mTitleArea.getPaddingLeft();
-        mContentArea.top = mTitleArea.getTop() + mTitleArea.getPaddingTop()
+        mContentArea.top = mTitleArea.getTop() + mTitleArea.getPaddingTop() 
             + (int)mContentParent.getTranslationY(); // account for any adjustment
         mContentArea.right = mTitleArea.getRight() - mTitleArea.getPaddingRight();
 
@@ -337,25 +335,18 @@ public class NotificationPanel extends RelativeLayout implements StatusBarPanel,
     }
 
     void removeSettingsView() {
-        if (mScrollView != null) {
-            mContentFrame.removeView(mScrollView);
-            mScrollView = null;
+        if (mSettingsView != null) {
+            mContentFrame.removeView(mSettingsView);
+            mSettingsView = null;
         }
     }
 
     // NB: it will be invisible until you show it
     void addSettingsView() {
-
-        /* Let's add mSettingsView to a ScroolView so if the user has too many
-         *  settings, it will scroll.
-         */
-        mScrollView = new ScrollView(getContext());
         LayoutInflater infl = LayoutInflater.from(getContext());
-        mSettingsView = infl.inflate(R.layout.status_bar_settings_view, mScrollView, false);
-
-        mScrollView.setVisibility(View.GONE);
-        mScrollView.addView(mSettingsView);
-        mContentFrame.addView(mScrollView);
+        mSettingsView = infl.inflate(R.layout.status_bar_settings_view, mContentFrame, false);
+        mSettingsView.setVisibility(View.GONE);
+        mContentFrame.addView(mSettingsView);
     }
 
     private class Choreographer implements Animator.AnimatorListener {
@@ -375,7 +366,7 @@ public class NotificationPanel extends RelativeLayout implements StatusBarPanel,
 
         void createAnimation(boolean appearing) {
             // mVisible: previous state; appearing: new state
-
+            
             float start, end;
 
             // 0: on-screen

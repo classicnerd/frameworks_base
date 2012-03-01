@@ -39,7 +39,7 @@ class FastScroller {
     private static final String TAG = "FastScroller";
    
     // Minimum number of pages to justify showing a fast scroll thumb
-    private static int MIN_PAGES = 4;
+    private static int MIN_PAGES = 2;
     // Scroll thumb not showing
     private static final int STATE_NONE = 0;
     // Not implemented yet - fade-in transition
@@ -124,8 +124,8 @@ class FastScroller {
     boolean mPendingDrag;
     private int mScaledTouchSlop;
 
-    private static final int FADE_TIMEOUT = 1500;
-    private static final int PENDING_DRAG_DELAY = 180;
+    private static final int FADE_TIMEOUT = 750;
+    private static final int PENDING_DRAG_DELAY = 90;
 
     private final Rect mTmpRect = new Rect();
 

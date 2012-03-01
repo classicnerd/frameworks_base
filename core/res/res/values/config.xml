@@ -62,13 +62,13 @@
     <bool name="config_sf_slowBlur">true</bool>
 
     <!-- The duration (in milliseconds) of a short animation. -->
-    <integer name="config_shortAnimTime">200</integer>
+    <integer name="config_shortAnimTime">150</integer>
 
     <!-- The duration (in milliseconds) of a medium-length animation. -->
-    <integer name="config_mediumAnimTime">400</integer>
+    <integer name="config_mediumAnimTime">300</integer>
 
     <!-- The duration (in milliseconds) of a long animation. -->
-    <integer name="config_longAnimTime">500</integer>
+    <integer name="config_longAnimTime">400</integer>
 
     <!-- The duration (in milliseconds) of the activity open/close and fragment open/close animations. -->
     <integer name="config_activityShortDur">150</integer>
@@ -237,12 +237,12 @@
     <bool translatable="false" name="config_wifi_dual_band_support">false</bool>
 
     <!-- Boolean indicating whether the wifi chipset has p2p support -->
-    <bool translatable="false" name="config_wifi_p2p_support">false</bool>
+    <bool translatable="false" name="config_wifi_p2p_support">true</bool>
     <!-- Device type information conforming to Annex B format in WiFi Direct specification.
          The default represents a dual-mode smartphone -->
     <string translatable="false" name="config_wifi_p2p_device_type">10-0050F204-5</string>
 
-    <!-- Boolean indicating whether the wifi chipset supports background scanning mechanism.
+    <!-- Boolean indicating whether the wifi chipset supports background mechanism.
          This mechanism allows the host to remain in suspend state and the dongle to actively
          scan and wake the host when a configured SSID is detected by the dongle. This chipset
          capability can provide power savings when wifi needs to be always kept on.
@@ -280,7 +280,7 @@
 
     <!-- If true, the screen can be rotated via the accelerometer in all 4
          rotations as the default behavior. -->
-    <bool name="config_allowAllRotations">false</bool>
+    <bool name="config_allowAllRotations">true</bool>
 
     <!-- If true, the direction rotation is applied to get to an application's requested
          orientation is reversed.  Normally, the model is that landscape is
@@ -305,18 +305,18 @@
          keeps the screen on.  By default it stays on when plugged in to
          AC.  0 will not keep it on; or together 1 to stay on when plugged
          in to AC and 2 to stay on when plugged in to USB.  (So 3 for both.) -->
-    <integer name="config_deskDockKeepsScreenOn">1</integer>
+    <integer name="config_deskDockKeepsScreenOn">3</integer>
 
     <!-- Control whether being in the car dock (and powered) always
          keeps the screen on.  By default it stays on when plugged in to
          AC.  0 will not keep it on; or together 1 to stay on when plugged
          in to AC and 2 to stay on when plugged in to USB.  (So 3 for both.) -->
-    <integer name="config_carDockKeepsScreenOn">1</integer>
+    <integer name="config_carDockKeepsScreenOn">3</integer>
 
     <!-- Control whether being in the desk dock should enable accelerometer
          based screen orientation.  Note this should probably default to true
          like car dock, but we haven't had a chance to test it. -->
-    <bool name="config_deskDockEnablesAccelerometer">false</bool>
+    <bool name="config_deskDockEnablesAccelerometer">true</bool>
 
     <!-- Control whether being in the car dock should enable accelerometer based
          screen orientation.  This defaults to true because putting a device in
@@ -608,7 +608,7 @@
     <integer name="config_downloadDataDirSize">100</integer>
 
     <!-- Max number of downloads allowed to proceed concurrently -->
-    <integer name="config_MaxConcurrentDownloadsAllowed">5</integer>
+    <integer name="config_MaxConcurrentDownloadsAllowed">10</integer>
 
     <!-- When the free space available in DownloadManager's data dir falls
          below the percentage value specified by this param, DownloadManager

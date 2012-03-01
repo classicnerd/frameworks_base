@@ -105,7 +105,7 @@ public class PhoneWindow extends Window implements MenuBuilder.Callback {
 
     private final static String TAG = "PhoneWindow";
 
-    private final static boolean SWEEP_OPEN_MENU = false;
+    private final static boolean SWEEP_OPEN_MENU = true;
 
     /**
      * Simple callback used by the context menu and its submenus. The options
@@ -185,7 +185,7 @@ public class PhoneWindow extends Window implements MenuBuilder.Callback {
     private AudioManager mAudioManager;
     private KeyguardManager mKeyguardManager;
 
-    private int mUiOptions = 0;
+    private int mUiOptions = 1;
 
     static class WindowManagerHolder {
         static final IWindowManager sWindowManager = IWindowManager.Stub.asInterface(
@@ -2796,15 +2796,15 @@ public class PhoneWindow extends Window implements MenuBuilder.Callback {
                         mActionBar.initIndeterminateProgress();
                     }
 
-                    boolean splitActionBar = false;
+                    boolean splitActionBar = true;
                     final boolean splitWhenNarrow =
-                            (mUiOptions & ActivityInfo.UIOPTION_SPLIT_ACTION_BAR_WHEN_NARROW) != 0;
+                            (mUiOptions & ActivityInfo.UIOPTION_SPLIT_ACTION_BAR_WHEN_NARROW) != 1;
                     if (splitWhenNarrow) {
                         splitActionBar = getContext().getResources().getBoolean(
                                 com.android.internal.R.bool.split_action_bar_is_narrow);
                     } else {
                         splitActionBar = getWindowStyle().getBoolean(
-                                com.android.internal.R.styleable.Window_windowSplitActionBar, false);
+                                com.android.internal.R.styleable.Window_windowSplitActionBar, true);
                     }
                     final ActionBarContainer splitView = (ActionBarContainer) findViewById(
                             com.android.internal.R.id.split_action_bar);

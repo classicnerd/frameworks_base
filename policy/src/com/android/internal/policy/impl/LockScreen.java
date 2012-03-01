@@ -55,7 +55,7 @@ import com.android.internal.widget.multiwaveview.MultiWaveView;
  */
 class LockScreen extends LinearLayout implements KeyguardScreen {
 
-    private static final int ON_RESUME_PING_DELAY = 500; // delay first ping until the screen is on
+    private static final int ON_RESUME_PING_DELAY = 250; // delay first ping until the screen is on
     private static final boolean DBG = false;
     private static final String TAG = "LockScreen";
     private static final String ENABLE_MENU_KEY_FILE = "/data/local/enable_menu_key";

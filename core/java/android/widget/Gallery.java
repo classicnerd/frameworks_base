@@ -76,7 +76,7 @@ public class Gallery extends AbsSpinner implements GestureDetector.OnGestureList
      * How long the transition animation should run when a child view changes
      * position, measured in milliseconds.
      */
-    private int mAnimationDuration = 400;
+    private int mAnimationDuration = 300;
 
     /**
      * The alpha of items that are not selected.
