@@ -109,7 +109,7 @@ terms listed above has been obtained from the copyright holder.
 /* impulse response with phase dispersion */
 
 /* 2.0 - 6.4 kHz phase dispersion */
-const int16 ph_imp_low[L_SUBFR] =
+static const int16 ph_imp_low[L_SUBFR] =
 {
     20182,  9693,  3270, -3437, 2864, -5240,  1589, -1357,
     600,  3893, -1497,  -698, 1203, -5249,  1199,  5371,

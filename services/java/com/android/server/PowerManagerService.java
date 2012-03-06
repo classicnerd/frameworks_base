@@ -3161,3 +3161,4 @@ public class PowerManagerService extends IPowerManager.Stub
         }
     };
 }
+
