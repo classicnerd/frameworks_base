@@ -120,16 +120,8 @@ public class Toast {
      */
     public void cancel() {
         mTN.hide();
+    // TODO this still needs to cancel the inflight notification if any
 
-        INotificationManager service - getService();
-        String pkg = mContext.getPackageName();
-        TN tn = mTN;
-
-        try {
-            service.cancelToast(pkg, tn);
-        } catch (RemoteException e) {
-           // just dump
-           e.printStackTrace();
     }
     
     /**
