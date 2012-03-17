@@ -1394,7 +1394,7 @@ public final class Settings {
 	 * Whether to enable the electron beam animation when turning screen on
          *
          * @hide */
-        public static final String ELECTRON_BEAM_ANIMATION_ON = "electron_beam_animation_on");
+        public static final String ELECTRON_BEAM_ANIMATION_ON = "electron_beam_animation_on";
          
         /**
          * Whether to enable the electron beam animation when turning screen off
