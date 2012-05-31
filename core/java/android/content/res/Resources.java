@@ -2210,3 +2210,4 @@ public class Resources {
         mCompatibilityInfo = CompatibilityInfo.DEFAULT_COMPATIBILITY_INFO;
     }
 }
+

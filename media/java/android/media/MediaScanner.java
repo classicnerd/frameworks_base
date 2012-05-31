@@ -1668,3 +1668,4 @@ public class MediaScanner
         native_finalize();
     }
 }
+

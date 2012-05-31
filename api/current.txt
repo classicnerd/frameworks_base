@@ -73,7 +73,6 @@ package android {
     field public static final java.lang.String MOUNT_UNMOUNT_FILESYSTEMS = "android.permission.MOUNT_UNMOUNT_FILESYSTEMS";
     field public static final java.lang.String NFC = "android.permission.NFC";
     field public static final deprecated java.lang.String PERSISTENT_ACTIVITY = "android.permission.PERSISTENT_ACTIVITY";
-    field public static final java.lang.String PREVENT_POWER_KEY = "android.permission.PREVENT_POWER_KEY";
     field public static final java.lang.String PROCESS_OUTGOING_CALLS = "android.permission.PROCESS_OUTGOING_CALLS";
     field public static final java.lang.String READ_CALENDAR = "android.permission.READ_CALENDAR";
     field public static final java.lang.String READ_CONTACTS = "android.permission.READ_CONTACTS";
@@ -1486,7 +1485,6 @@ package android {
     field public static final int emptyPhoneNumber = 17039366; // 0x1040006
     field public static final int httpErrorBadUrl = 17039367; // 0x1040007
     field public static final int httpErrorUnsupportedScheme = 17039368; // 0x1040008
-    field public static final int lockscreen_emergency_call = 17040095; // 0x10402df
     field public static final int no = 17039369; // 0x1040009
     field public static final int ok = 17039370; // 0x104000a
     field public static final int paste = 17039371; // 0x104000b
@@ -6613,6 +6611,7 @@ package android.content.res {
     method public int getDimensionPixelSize(int) throws android.content.res.Resources.NotFoundException;
     method public android.util.DisplayMetrics getDisplayMetrics();
     method public android.graphics.drawable.Drawable getDrawable(int) throws android.content.res.Resources.NotFoundException;
+    method public android.graphics.drawable.Drawable getDrawableForDensity(int, int) throws android.content.res.Resources.NotFoundException;
     method public float getFraction(int, int, int);
     method public int getIdentifier(java.lang.String, java.lang.String, java.lang.String);
     method public int[] getIntArray(int) throws android.content.res.Resources.NotFoundException;
@@ -6635,6 +6634,7 @@ package android.content.res {
     method public java.lang.CharSequence[] getTextArray(int) throws android.content.res.Resources.NotFoundException;
     method public void getValue(int, android.util.TypedValue, boolean) throws android.content.res.Resources.NotFoundException;
     method public void getValue(java.lang.String, android.util.TypedValue, boolean) throws android.content.res.Resources.NotFoundException;
+    method public void getValueForDensity(int, int, android.util.TypedValue, boolean) throws android.content.res.Resources.NotFoundException;
     method public android.content.res.XmlResourceParser getXml(int) throws android.content.res.Resources.NotFoundException;
     method public final android.content.res.Resources.Theme newTheme();
     method public android.content.res.TypedArray obtainAttributes(android.util.AttributeSet, int[]);
@@ -10851,9 +10851,13 @@ package android.media {
 
   public final class MediaRecorder.AudioEncoder {
     field public static final int AAC = 3; // 0x3
+    field public static final int AAC_PLUS = 4; // 0x4
     field public static final int AMR_NB = 1; // 0x1
     field public static final int AMR_WB = 2; // 0x2
     field public static final int DEFAULT = 0; // 0x0
+    field public static final int EAAC_PLUS = 5; // 0x5
+    field public static final int EVRC = 6; // 0x6
+    field public static final int QCELP = 7; // 0x7
   }
 
   public final class MediaRecorder.AudioSource {
@@ -10880,8 +10884,10 @@ package android.media {
     field public static final int AMR_WB = 4; // 0x4
     field public static final int DEFAULT = 0; // 0x0
     field public static final int MPEG_4 = 2; // 0x2
+    field public static final int QCP = 9; // 0x9
     field public static final int RAW_AMR = 3; // 0x3
     field public static final int THREE_GPP = 1; // 0x1
+    field public static final int THREE_GPP2 = 10; // 0xa
   }
 
   public final class MediaRecorder.VideoEncoder {
@@ -24040,7 +24046,6 @@ package android.view {
     field public static final deprecated int MEMORY_TYPE_HARDWARE = 1; // 0x1
     field public static final deprecated int MEMORY_TYPE_NORMAL = 0; // 0x0
     field public static final deprecated int MEMORY_TYPE_PUSH_BUFFERS = 3; // 0x3
-    field public static final int PREVENT_POWER_KEY = -2147483648; // 0x80000000
     field public static final int SCREEN_BRIGHTNESS_CHANGED = 2048; // 0x800
     field public static final int SCREEN_ORIENTATION_CHANGED = 1024; // 0x400
     field public static final int SOFT_INPUT_ADJUST_NOTHING = 48; // 0x30
@@ -46744,4 +46749,5 @@ package org.xmlpull.v1.sax2 {
   }
 
 }
+
 

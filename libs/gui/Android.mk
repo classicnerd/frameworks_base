@@ -30,16 +30,24 @@ LOCAL_SHARED_LIBRARIES := \
 	libGLESv2
 
 ifeq ($(BOARD_USES_QCOM_HARDWARE),true)
-ifneq ($(BOARD_USES_LEGACY_QCOM),true)
-LOCAL_SHARED_LIBRARIES += \
-        libQcomUI
-LOCAL_C_INCLUDES := hardware/qcom/display/libqcomui
-LOCAL_CFLAGS += -DQCOM_HARDWARE
+
+ifeq ($(BOARD_USES_LEGACY_QCOM),true)
+	# Legacy gralloc cannot handle this flag: undefine it
+	LOCAL_CFLAGS += -UQCOM_HARDWARE
+else
+	LOCAL_SHARED_LIBRARIES += libQcomUI
+	LOCAL_C_INCLUDES := hardware/qcom/display/libqcomui
 endif
+
 ifeq ($(TARGET_QCOM_HDMI_OUT),true)
-LOCAL_CFLAGS += -DQCOM_HDMI_OUT
+	LOCAL_CFLAGS += -DQCOM_HDMI_OUT
 endif
+
+ifeq ($(TARGET_BOARD_PLATFORM),qsd8k)
+	LOCAL_CFLAGS += -DTARGET8x50
 endif
+
+endif # QCOM_HARDWARE
 
 LOCAL_MODULE:= libgui
 
@@ -52,3 +60,4 @@ include $(BUILD_SHARED_LIBRARY)
 ifeq (,$(ONE_SHOT_MAKEFILE))
 include $(call first-makefiles-under,$(LOCAL_PATH))
 endif
+

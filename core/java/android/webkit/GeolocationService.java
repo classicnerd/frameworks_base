@@ -200,3 +200,4 @@ final class GeolocationService implements LocationListener {
     private static native void nativeNewLocationAvailable(long nativeObject, Location location);
     private static native void nativeNewErrorAvailable(long nativeObject, String message);
 }
+

@@ -276,3 +276,4 @@ public final class GeolocationPermissions {
     private static native void nativeAllow(String origin);
     private static native void nativeClearAll();
 }
+

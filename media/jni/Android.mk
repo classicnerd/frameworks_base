@@ -46,6 +46,10 @@ LOCAL_C_INCLUDES += \
 
 LOCAL_CFLAGS +=
 
+ifdef BOARD_MTP_DEVICE
+    LOCAL_CFLAGS += -DUSB_MTP_DEVICE='$(BOARD_MTP_DEVICE)'
+endif
+
 LOCAL_LDLIBS := -lpthread
 
 LOCAL_MODULE:= libmedia_jni
@@ -55,3 +59,4 @@ include $(BUILD_SHARED_LIBRARY)
 # build libsoundpool.so
 # build libaudioeffect_jni.so
 include $(call all-makefiles-under,$(LOCAL_PATH))
+

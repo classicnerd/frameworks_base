@@ -629,3 +629,4 @@ public final class InputDevice implements Parcelable {
         }
     }
 }
+

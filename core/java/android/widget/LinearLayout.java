@@ -1827,3 +1827,4 @@ public class LinearLayout extends ViewGroup {
         }
     }
 }
+

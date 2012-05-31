@@ -791,11 +791,11 @@ void update_gp_clipping(tonStabState *st, /* i/o : State struct            */
                        )
 {
     OSCL_UNUSED_ARG(pOverflow);
-    int i;
-    for (i = 0; i < N_FRAME - 1; i++)
+    for (int i = 0; i < N_FRAME - 1; i++)
     {
         st->gp[i] = st->gp[i+1];
     }
     st->gp[N_FRAME-1] =  g_pitch >> 3;
 }
+
 

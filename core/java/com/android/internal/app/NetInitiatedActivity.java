@@ -154,3 +154,4 @@ public class NetInitiatedActivity extends AlertActivity implements DialogInterfa
                 Toast.LENGTH_LONG).show();
     }
 }
+

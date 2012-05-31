@@ -33,3 +33,4 @@ interface IMediaContainerService {
     ObbInfo getObbInfo(in String filename);
     long calculateDirectorySize(in String directory);
 }
+

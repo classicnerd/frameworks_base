@@ -1,7 +1,6 @@
 /*
  * Copyright (C) 2009 The Android Open Source Project
- * Copyright (c) 2011-2012, Code Aurora Forum. All rights reserved.
- *
+ * Copyright (c) 2010-2011, Code Aurora Forum. All rights reserved.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -15,7 +14,7 @@
  * limitations under the License.
  */
 /*--------------------------------------------------------------------------
-Copyright (c) 2012, Code Aurora Forum. All rights reserved.
+Copyright (c) 2011, Code Aurora Forum. All rights reserved.
 --------------------------------------------------------------------------*/
 
 #ifndef OMX_CODEC_H_
@@ -178,6 +177,8 @@ private:
         size_t mSize;
         void *mData;
         MediaBuffer *mMediaBuffer;
+        OMX_U8 *mAllocatedBuffer;
+        OMX_U32 mAllocatedSize;
     };
 
     struct CodecSpecificData {
@@ -248,12 +249,6 @@ private:
     // Used to record the decoding time for an output picture from
     // a video encoder.
     List<int64_t> mDecodingTimeList;
-#ifdef QCOM_HARDWARE
-    bool m3DVideoDetected;
-
-    //Used to indicate if the AAC container has ADIF format
-    int32_t mIsAacFormatAdif;
-#endif
 
     OMXCodec(const sp<IOMX> &omx, IOMX::node_id node,
              uint32_t quirks, uint32_t flags,
@@ -270,10 +265,10 @@ private:
     status_t setAACFormat(int32_t numChannels, int32_t sampleRate, int32_t bitRate);
 #ifdef QCOM_HARDWARE
     void setEVRCFormat( int32_t sampleRate, int32_t numChannels, int32_t bitRate);
-    void setG711Format(int32_t numChannels, int32_t sampleRate);
-    void setQCELPFormat( int32_t sampleRate, int32_t numChannels, int32_t bitRate);
-#else
+#endif
     void setG711Format(int32_t numChannels);
+#ifdef QCOM_HARDWARE
+    void setQCELPFormat( int32_t sampleRate, int32_t numChannels, int32_t bitRate);
 #endif
 
     status_t setVideoPortFormatType(
@@ -288,9 +283,6 @@ private:
     status_t setupErrorCorrectionParameters();
     status_t setupH263EncoderParameters(const sp<MetaData>& meta);
     status_t setupMPEG4EncoderParameters(const sp<MetaData>& meta);
-#ifdef QCOM_HARDWARE
-    status_t setupMPEG2EncoderParameters(const sp<MetaData>& meta);
-#endif
     status_t setupAVCEncoderParameters(const sp<MetaData>& meta);
     status_t findTargetColorFormat(
             const sp<MetaData>& meta, OMX_COLOR_FORMATTYPE *colorFormat);
@@ -384,19 +376,12 @@ private:
 
     int64_t retrieveDecodingTimeUs(bool isCodecSpecific);
 
-#ifdef QCOM_HARDWARE
-    void parseFlags();
-#endif
     status_t parseAVCCodecSpecificData(
             const void *data, size_t size,
-#ifdef QCOM_HARDWARE
             unsigned *profile, unsigned *level, const sp<MetaData> &meta);
-#else
-            unsigned *profile, unsigned *level);
-#endif
 
 #ifdef QCOM_HARDWARE
-    status_t processSEIData();
+    void parseFlags( uint32_t flags );
 #endif
 
     OMXCodec(const OMXCodec &);
@@ -405,9 +390,8 @@ private:
     status_t setWMAFormat(const sp<MetaData> &inputFormat);
     void setAC3Format(int32_t numChannels, int32_t sampleRate);
 
-    int64_t latenessUs;
-    uint32_t LC_level; // LOW_COMPLEXITY level
-    int32_t mInterlaceFrame;
+    int32_t mNumBFrames;
+    bool mUseArbitraryMode;
 #endif
 };
 
@@ -443,3 +427,4 @@ status_t QueryCodecs(
 }  // namespace android
 
 #endif  // OMX_CODEC_H_
+

@@ -26,3 +26,4 @@ interface IUsageStats {
     PkgUsageStats getPkgUsageStats(in ComponentName componentName);
     PkgUsageStats[] getAllPkgUsageStats();
 }
+

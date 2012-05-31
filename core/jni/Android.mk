@@ -227,7 +227,6 @@ ifeq ($(USE_OPENGL_RENDERER),true)
 LOCAL_SHARED_LIBRARIES += libtilerenderer
 endif
 LOCAL_C_INCLUDES += hardware/qcom/display/libtilerenderer
-LOCAL_CFLAGS += -DQCOM_HARDWARE
 endif
 
 ifeq ($(BOARD_HAVE_BLUETOOTH),true)
@@ -259,3 +258,4 @@ endif
 include $(BUILD_SHARED_LIBRARY)
 
 include $(call all-makefiles-under,$(LOCAL_PATH))
+

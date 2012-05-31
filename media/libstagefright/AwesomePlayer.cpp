@@ -2358,3 +2358,4 @@ void AwesomePlayer::modifyFlags(unsigned value, FlagMode mode) {
 }
 
 }  // namespace android
+

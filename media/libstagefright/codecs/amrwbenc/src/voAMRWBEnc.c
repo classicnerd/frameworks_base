@@ -1702,7 +1702,7 @@ VO_U32 VO_API voAMRWB_SetInputData(
 	gData = (Coder_State *)hCodec;
 	stream = gData->stream;
 
-	if(NULL == pInput || NULL == pInput->Buffer)
+	if(NULL == pInput || NULL == pInput->Buffer || 0 > pInput->Length)
 	{
 		return VO_ERR_INVALID_ARG;
 	}
@@ -1939,3 +1939,4 @@ VO_S32 VO_API voGetAMRWBEncAPI(
 #ifdef __cplusplus
 }
 #endif
+
