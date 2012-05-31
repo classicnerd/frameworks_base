@@ -29,3 +29,4 @@
     <item android:maxLevel="100" android:drawable="@android:drawable/stat_sys_battery_100" />
 </level-list>
 
+
