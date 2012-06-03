@@ -1,3 +1,4 @@
+
 LOCAL_PATH:=$(call my-dir)
 
 
@@ -222,4 +223,3 @@ LOCAL_STATIC_LIBRARIES := libcutils libutils
 LOCAL_LDLIBS := -lpthread
 
 include $(BUILD_HOST_STATIC_LIBRARY)
-

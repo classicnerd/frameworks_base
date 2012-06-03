@@ -26,7 +26,6 @@
 #include <media/stagefright/OMXClient.h>
 #include <media/stagefright/OMXCodec.h>
 #include <media/MediaPlayerInterface.h>
-
 #ifdef QCOM_HARDWARE
 #include <OMX_QCOMExtns.h>
 #endif
@@ -304,4 +303,3 @@ int main(int argc, char **argv) {
     fprintf(stderr, "encoding speed is: %.2f fps\n", (nFrames * 1E9) / (end-start));
     return 0;
 }
-

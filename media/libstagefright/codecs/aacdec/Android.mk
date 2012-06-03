@@ -1,5 +1,4 @@
 LOCAL_PATH:= $(call my-dir)
-
 include $(CLEAR_VARS)
 
 LOCAL_SRC_FILES := \
@@ -152,11 +151,7 @@ LOCAL_C_INCLUDES := \
 
 LOCAL_ARM_MODE := arm
 
-ifeq ($(BOARD_USES_QCOM_HARDWARE),true)
 LOCAL_MODULE := libstagefright_aacdec_omx
-else
-LOCAL_MODULE := libstagefright_aacdec
-endif
 
 include $(BUILD_STATIC_LIBRARY)
 
@@ -186,7 +181,7 @@ include $(BUILD_SHARED_LIBRARY)
 
 ################################################################################
 
-ifeq ($(BOARD_USES_QCOM_HARDWARE),true)
+ifeq ($(TARGET_USES_QCOM_LPA),true)
 include $(CLEAR_VARS)
 
 LOCAL_SRC_FILES := \
@@ -340,6 +335,5 @@ LOCAL_C_INCLUDES := frameworks/base/media/libstagefright/include
 LOCAL_MODULE := libstagefright_aacdec
 
 include $(BUILD_STATIC_LIBRARY)
-
 endif
 

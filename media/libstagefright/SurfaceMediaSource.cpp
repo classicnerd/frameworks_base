@@ -32,11 +32,6 @@
 #include <utils/Log.h>
 #include <utils/String8.h>
 
-#ifdef QCOM_HARDWARE
-#include <cutils/properties.h>
-#include <gralloc_priv.h>
-#endif
-
 namespace android {
 
 SurfaceMediaSource::SurfaceMediaSource(uint32_t bufW, uint32_t bufH) :
@@ -344,22 +339,6 @@ status_t SurfaceMediaSource::dequeueBuffer(int *outBuf, uint32_t w, uint32_t h,
             // XXX: This will be changed to USAGE_HW_VIDEO_ENCODER once driver
             // issues with that flag get fixed.
             usage |= GraphicBuffer::USAGE_HW_TEXTURE;
-#ifdef QCOM_HARDWARE
-            char value[PROPERTY_VALUE_MAX] = {0};
-            if (property_get("ro.board.platform", value, "0")) {
-#ifndef CAMERA_MM_HEAP
-                if (!strncmp(value, "msm8660", sizeof("msm8660") - 1)) {
-                    usage |= (GRALLOC_USAGE_PRIVATE_SMI_HEAP |
-                            GRALLOC_USAGE_PRIVATE_UNCACHED);
-                }
-                else
-#endif
-                {
-                    usage |= (GRALLOC_USAGE_PRIVATE_MM_HEAP |
-                            GRALLOC_USAGE_PRIVATE_UNCACHED);
-                }
-            }
-#endif
             status_t error;
             sp<GraphicBuffer> graphicBuffer(
                     mGraphicBufferAlloc->createGraphicBuffer(
@@ -888,4 +867,3 @@ bool SurfaceMediaSource::checkBufferMatchesSlot(int slot, MediaBuffer *buffer) {
 }
 
 } // end of namespace android
-

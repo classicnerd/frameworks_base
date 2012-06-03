@@ -177,8 +177,6 @@ private:
         size_t mSize;
         void *mData;
         MediaBuffer *mMediaBuffer;
-        OMX_U8 *mAllocatedBuffer;
-        OMX_U32 mAllocatedSize;
     };
 
     struct CodecSpecificData {
@@ -379,7 +377,6 @@ private:
     status_t parseAVCCodecSpecificData(
             const void *data, size_t size,
             unsigned *profile, unsigned *level, const sp<MetaData> &meta);
-
 #ifdef QCOM_HARDWARE
     void parseFlags( uint32_t flags );
 #endif
