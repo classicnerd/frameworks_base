@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2009 The Android Open Source Project
- * Copyright (c) 2010-2011, Code Aurora Forum. All rights reserved.
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -13,9 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/*--------------------------------------------------------------------------
-Copyright (c) 2011, Code Aurora Forum. All rights reserved.
---------------------------------------------------------------------------*/
 
 #ifndef OMX_CODEC_H_
 
@@ -62,7 +59,6 @@ struct OMXCodec : public MediaSource,
 
 #ifdef QCOM_HARDWARE
         kEnableThumbnailMode = 512,
-        kUseMinBufferCount = 32768,
 #endif
     };
     static sp<MediaSource> Create(
@@ -117,18 +113,10 @@ private:
         EXECUTING_TO_IDLE,
         IDLE_TO_LOADED,
         RECONFIGURING,
-#ifdef QCOM_HARDWARE
-        PAUSING,
-        FLUSHING,
-        PAUSED,
-#endif
         ERROR
     };
 
     enum {
-#ifdef QCOM_HARDWARE
-        kPortIndexBoth   = -1,
-#endif
         kPortIndexInput  = 0,
         kPortIndexOutput = 1
     };
@@ -158,8 +146,6 @@ private:
         kOutputBuffersAreUnreadable           = 8192,
 #ifdef QCOM_HARDWARE
         kStoreMetaDataInInputVideoBuffers     = 16384,
-        kRequiresGlobalFlush                  = 0x20000000, // 2^29
-        kRequiresWMAProComponent              = 0x40000000, //2^30
 #endif
     };
 
@@ -240,8 +226,6 @@ private:
     bool mIsMetaDataStoredInVideoBuffers;
     bool mOnlySubmitOneBufferAtOneTime;
     bool mInterlaceFormatDetected;
-    bool mSPSParsed;
-    bool bInvalidState;
 #endif
 
     // Used to record the decoding time for an output picture from
@@ -261,13 +245,7 @@ private:
 
     void setAMRFormat(bool isWAMR, int32_t bitRate);
     status_t setAACFormat(int32_t numChannels, int32_t sampleRate, int32_t bitRate);
-#ifdef QCOM_HARDWARE
-    void setEVRCFormat( int32_t sampleRate, int32_t numChannels, int32_t bitRate);
-#endif
     void setG711Format(int32_t numChannels);
-#ifdef QCOM_HARDWARE
-    void setQCELPFormat( int32_t sampleRate, int32_t numChannels, int32_t bitRate);
-#endif
 
     status_t setVideoPortFormatType(
             OMX_U32 portIndex,
@@ -376,20 +354,14 @@ private:
 
     status_t parseAVCCodecSpecificData(
             const void *data, size_t size,
-            unsigned *profile, unsigned *level, const sp<MetaData> &meta);
+            unsigned *profile, unsigned *level);
+
 #ifdef QCOM_HARDWARE
     void parseFlags( uint32_t flags );
 #endif
 
     OMXCodec(const OMXCodec &);
     OMXCodec &operator=(const OMXCodec &);
-#ifdef QCOM_HARDWARE
-    status_t setWMAFormat(const sp<MetaData> &inputFormat);
-    void setAC3Format(int32_t numChannels, int32_t sampleRate);
-
-    int32_t mNumBFrames;
-    bool mUseArbitraryMode;
-#endif
 };
 
 struct CodecCapabilities {

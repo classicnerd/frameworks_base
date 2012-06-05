@@ -44,9 +44,7 @@
 #endif
 
 #define DEBUG_RESIZE    0
-#ifdef QCOM_HARDWARE
-#define SHIFT_SRC_TRANSFORM 4
-#endif
+
 
 namespace android {
 
@@ -237,12 +235,7 @@ void Layer::setGeometry(hwc_layer_t* hwcl)
         hwcl->flags = HWC_SKIP_LAYER;
     } else {
         hwcl->transform = finalTransform;
-#ifdef QCOM_HARDWARE
-        //mBufferTransform will have the srcTransform
-        //include src and final transform in the hwcl->transform
-        hwcl->transform = (( bufferOrientation.getOrientation() <<
-                                       SHIFT_SRC_TRANSFORM) | hwcl->transform);
-#endif
+
     }
 
     if (isCropped()) {
@@ -276,13 +269,10 @@ void Layer::setPerFrameData(hwc_layer_t* hwcl) {
         hwcl->handle = buffer->handle;
     }
 #ifdef QCOM_HARDWARE
-<<<<<<< HEAD
 #ifdef TARGET8x50
     updateLayerQcomFlags(LAYER_ASYNCHRONOUS_STATUS, !mSurfaceTexture->isSynchronousMode(), mLayerQcomFlags);
 #endif
-=======
     updateLayerQcomFlags(LAYER_ASYNCHRONOUS_STATUS, !mSurfaceTexture->isSynchronousMode(), mLayerQcomFlags);
->>>>>>> 853e37564bceea934c75cd57b8dbe781f9795543
     hwcl->flags = getPerFrameFlags(hwcl->flags, mLayerQcomFlags);
 #endif
 }
@@ -326,41 +316,31 @@ void Layer::onDraw(const Region& clip) const
 	    clearWithOpenGL(clip, 0, 0, 0, 1);
         return;
 	}
-
-#ifdef DECIDE_TEXTURE_TARGET
-    GLuint currentTextureTarget = mSurfaceTexture->getCurrentTextureTarget();
 #endif
+
+    GLuint currentTextureTarget =
+#ifdef QCOM_HARDWARE
+	    mSurfaceTexture->getCurrentTextureTarget();
+#else
+            GL_TEXTURE_EXTERNAL_OES;
 #endif
 
     if (!isProtected()) {
-#ifdef DECIDE_TEXTURE_TARGET
         glBindTexture(currentTextureTarget, mTextureName);
-#else
-        glBindTexture(GL_TEXTURE_EXTERNAL_OES, mTextureName);
-#endif
         GLenum filter = GL_NEAREST;
         if (getFiltering() || needsFiltering() || isFixedSize() || isCropped()) {
             // TODO: we could be more subtle with isFixedSize()
             filter = GL_LINEAR;
         }
-#ifdef DECIDE_TEXTURE_TARGET
         glTexParameterx(currentTextureTarget, GL_TEXTURE_MAG_FILTER, filter);
         glTexParameterx(currentTextureTarget, GL_TEXTURE_MIN_FILTER, filter);
-#else
-        glTexParameterx(GL_TEXTURE_EXTERNAL_OES, GL_TEXTURE_MAG_FILTER, filter);
-        glTexParameterx(GL_TEXTURE_EXTERNAL_OES, GL_TEXTURE_MIN_FILTER, filter);
-#endif
         glMatrixMode(GL_TEXTURE);
         glLoadMatrixf(mTextureMatrix);
         glMatrixMode(GL_MODELVIEW);
         glDisable(GL_TEXTURE_2D);
-#ifdef DECIDE_TEXTURE_TARGET
         glEnable(currentTextureTarget);
-#else
-        glEnable(GL_TEXTURE_EXTERNAL_OES);
-#endif
     } else {
-#ifdef DECIDE_TEXTURE_TARGET
+#ifdef QCOM_HARDWARE
         glBindTexture(currentTextureTarget, mFlinger->getProtectedTexName());
 #else
         glBindTexture(GL_TEXTURE_2D, mFlinger->getProtectedTexName());
@@ -368,7 +348,7 @@ void Layer::onDraw(const Region& clip) const
         glMatrixMode(GL_TEXTURE);
         glLoadIdentity();
         glMatrixMode(GL_MODELVIEW);
-#ifdef DECIDE_TEXTURE_TARGET
+#ifdef QCOM_HARDWARE
         glEnable(currentTextureTarget);
 #else
         glDisable(GL_TEXTURE_EXTERNAL_OES);
@@ -377,10 +357,6 @@ void Layer::onDraw(const Region& clip) const
     }
 
 #ifdef QCOM_HARDWARE
-    if(needsDithering()) {
-        glEnable(GL_DITHER);
-    }
-
     int composeS3DFormat = mQCLayer->needsS3DCompose();
     if (composeS3DFormat)
         drawS3DUIWithOpenGL(clip);
@@ -392,12 +368,8 @@ void Layer::onDraw(const Region& clip) const
 
     glDisable(GL_TEXTURE_EXTERNAL_OES);
     glDisable(GL_TEXTURE_2D);
-#ifdef QCOM_HARDWARE
-    if(needsDithering()) {
-        glDisable(GL_DITHER);
-    }
-#endif
 }
+
 
 // As documented in libhardware header, formats in the range
 // 0x100 - 0x1FF are specific to the HAL implementation, and
@@ -505,7 +477,7 @@ void Layer::lockPageFlip(bool& recomputeVisibleRegions)
             mFlinger->signalEvent();
         }
 
-#ifdef DECIDE_TEXTURE_TARGET
+#ifdef QCOM_HARDWARE
         // While calling updateTexImage() from SurfaceFlinger, let it know
         // by passing an extra parameter
         // This will be true always.

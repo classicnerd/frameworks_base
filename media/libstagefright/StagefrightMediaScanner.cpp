@@ -39,11 +39,7 @@ static bool FileHasAcceptableExtension(const char *extension) {
         ".wav", ".amr", ".midi", ".xmf", ".rtttl", ".rtx", ".ota",
         ".mkv", ".mka", ".webm", ".ts", ".fl", ".flac", ".mxmf", ".mpg",
 #ifdef QCOM_HARDWARE
-<<<<<<< HEAD
-	".avi"
-=======
         ".avi"
->>>>>>> 853e37564bceea934c75cd57b8dbe781f9795543
 #else
         ".qcp"
 #endif
