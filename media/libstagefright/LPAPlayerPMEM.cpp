@@ -127,3 +127,7 @@ void LPAPlayer::memBufferDeAlloc()
     }
 }
 } //namespace android
+<<<<<<< HEAD
+=======
+
+>>>>>>> 853e37564bceea934c75cd57b8dbe781f9795543

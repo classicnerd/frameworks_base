@@ -141,7 +141,7 @@ public:
     //
     // This call may only be made while the OpenGL ES context to which the
     // target texture belongs is bound to the calling thread.
-    status_t updateTexImage();
+    status_t updateTexImage(bool isComposition = false);
 
     // setBufferCountServer set the buffer count. If the client has requested
     // a buffer count using setBufferCount, the server-buffer count will
@@ -506,15 +506,19 @@ private:
     // glCopyTexSubImage to read from the texture.  This is a hack to work
     // around a GL driver limitation on the number of FBO attachments, which the
     // browser's tile cache exceeds.
+#ifdef DECIDE_TEXTURE_TARGET
+    GLenum mTexTarget;
+#else
     const GLenum mTexTarget;
+#endif
 
     // mFrameCounter is the free running counter, incremented for every buffer queued
     // with the surface Texture.
     uint64_t mFrameCounter;
 
 #ifdef QCOM_HARDWARE
-    // mReqSize is the required buffer size speficied by the client.
-    int mReqSize;
+    // s3dFormat is the S3D format specified by the client.
+    int mS3DFormat;
 
     struct BufferInfo {
          int width;
@@ -531,3 +535,4 @@ private:
 }; // namespace android
 
 #endif // ANDROID_GUI_SURFACETEXTURE_H
+

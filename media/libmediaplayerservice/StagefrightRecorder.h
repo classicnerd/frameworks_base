@@ -120,9 +120,6 @@ private:
     // will be sent to the client side using which the
     // frame buffers will be queued and dequeued
     sp<SurfaceMediaSource> mSurfaceMediaSource;
-#ifdef QCOM_HARDWARE
-    bool mDisableAudio;
-#endif
 
     status_t setupMPEG4Recording(
         int outputFd,
@@ -190,14 +187,8 @@ private:
 
     StagefrightRecorder(const StagefrightRecorder &);
     StagefrightRecorder &operator=(const StagefrightRecorder &);
-
-#ifdef QCOM_HARDWARE
-    /* extension */
-    status_t startExtendedRecording();
-#endif
 };
 
 }  // namespace android
 
 #endif  // STAGEFRIGHT_RECORDER_H_
-

@@ -19,7 +19,7 @@
 
 #include <stdint.h>
 #include <sys/types.h>
-
+#include <surfaceflinger/Surface.h>
 #include <utils/Errors.h>
 #include <utils/Flattenable.h>
 #include <utils/String8.h>
@@ -93,4 +93,3 @@ private:
 }; // namespace android
 
 #endif // ANDROID_GUI_SENSOR_H
-

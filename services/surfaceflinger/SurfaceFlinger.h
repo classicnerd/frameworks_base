@@ -97,6 +97,16 @@ public:
     virtual ~GraphicBufferAlloc();
     virtual sp<GraphicBuffer> createGraphicBuffer(uint32_t w, uint32_t h,
         PixelFormat format, uint32_t usage, status_t* error);
+#ifdef QCOM_HARDWARE
+    virtual void freeAllGraphicBuffersExcept(int bufIdx);
+    virtual void freeGraphicBufferAtIndex(int bufIdx);
+    virtual void setGraphicBufferSize(int size);
+private:
+    Vector<sp<GraphicBuffer> > mBuffers;
+    Mutex mLock;
+    int mFreedIndex;
+    int mSize;
+#endif
 };
 
 // ---------------------------------------------------------------------------
@@ -174,7 +184,7 @@ public:
 
 #ifdef QCOM_HDMI_OUT
     //HDMI Specific
-    virtual void                        enableHDMIOutput(int enable);
+    virtual void                        enableExternalDisplay(int disp_type, int externaltype);
     virtual void                        setActionSafeWidthRatio(float asWidthRatio);
     virtual void                        setActionSafeHeightRatio(float asHeightRatio);
 #endif
@@ -332,7 +342,16 @@ private:
                     uint32_t* width, uint32_t* height, PixelFormat* format,
                     uint32_t reqWidth, uint32_t reqHeight,
                     uint32_t minLayerZ, uint32_t maxLayerZ);
+#ifdef ADRENO_130_GPU
+            status_t directCaptureScreenImplLocked(DisplayID dpy,
+                    sp<IMemoryHeap>* heap,
+                    uint32_t* width, uint32_t* height, PixelFormat* format,
+                    uint32_t reqWidth, uint32_t reqHeight,
+                    uint32_t minLayerZ, uint32_t maxLayerZ);
 
+            status_t directRenderScreenToTextureLocked(DisplayID dpy,
+                    GLuint* textureName, GLfloat* uOut, GLfloat* vOut);
+#endif
             status_t turnElectronBeamOffImplLocked(int32_t mode);
             status_t turnElectronBeamOnImplLocked(int32_t mode);
             status_t electronBeamOffAnimationImplLocked();
@@ -344,7 +363,7 @@ private:
 
 #ifdef QCOM_HDMI_OUT
             //HDMI Specific
-            void updateHwcHDMI(bool enable);
+            void updateHwcExternalDisplay(int externaltype);
 #endif
 #ifdef QCOM_HARDWARE
             bool isGPULayerPresent();
@@ -404,8 +423,8 @@ private:
 
 #ifdef QCOM_HDMI_OUT
                 //HDMI specific
-                bool                        mHDMIOutput;
-                Mutex                       mHDMILock;
+                int                         mExtDispOutput;
+                Mutex                       mExtDispLock;
                 bool                        mOrientationChanged;
 #endif
 #ifdef QCOM_HARDWARE
@@ -435,3 +454,4 @@ private:
 }; // namespace android
 
 #endif // ANDROID_SURFACE_FLINGER_H
+

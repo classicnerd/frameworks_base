@@ -62,6 +62,10 @@ LOCAL_SHARED_LIBRARIES += \
 	libnvdispmgr_d
 endif
 
+ifeq ($(BOARD_ADRENO_DECIDE_TEXTURE_TARGET),true)
+    LOCAL_CFLAGS += -DDECIDE_TEXTURE_TARGET
+endif
+
 LOCAL_C_INCLUDES := \
 	$(call include-path-for, corecg graphics)
 
@@ -80,10 +84,6 @@ endif
 LOCAL_SHARED_LIBRARIES += \
 	libQcomUI
 LOCAL_C_INCLUDES += hardware/qcom/display/libqcomui
-
-ifeq ($(TARGET_BOARD_PLATFORM),qsd8k)
-LOCAL_CFLAGS += -DTARGET8x50
-endif
 
 endif # LEGACY_QCOM
 

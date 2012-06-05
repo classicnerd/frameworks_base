@@ -54,6 +54,7 @@ public:
             AudioBufferProvider* provider) = 0;
 
     virtual void reset();
+    virtual size_t getUnreleasedFrames() { return mInputIndex; }
 
 protected:
     // number of bits for phase fraction - 30 bits allows nearly 2x downsampling
@@ -93,3 +94,4 @@ protected:
 ; // namespace android
 
 #endif // ANDROID_AUDIO_RESAMPLER_H
+

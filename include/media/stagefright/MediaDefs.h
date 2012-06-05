@@ -74,3 +74,4 @@ extern const char *MEDIA_MIMETYPE_CONTAINER_3G2;
 }  // namespace android
 
 #endif  // MEDIA_DEFS_H_
+

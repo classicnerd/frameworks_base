@@ -130,8 +130,10 @@ public:
      * format:             Audio format (e.g AUDIO_FORMAT_PCM_16_BIT for signed
      *                     16 bits per sample).
      * channelMask:        Channel mask: see audio_channels_t.
-     * frameCount:         Total size of track PCM buffer in frames. This defines the
-     *                     latency of the track.
+     * frameCount:         Minimum size of track PCM buffer in frames. This defines the
+     *                     latency of the track. The actual size selected by the AudioTrack could be
+     *                     larger if the requested size is not compatible with current audio HAL
+     *                     latency.
      * flags:              Reserved for future use.
      * cbf:                Callback function. If not null, this function is called periodically
      *                     to request new PCM data.
@@ -170,6 +172,20 @@ public:
                                     void* user          = 0,
                                     int notificationFrames = 0,
                                     int sessionId = 0);
+#ifdef WITH_QCOM_LPA
+    /* Creates an audio track and registers it with AudioFlinger. With this constructor,
+     * session ID of compressed stream can be registered AudioFlinger and AudioHardware,
+     * for routing purpose.
+     */
+
+                        AudioTrack( int streamType,
+                                    uint32_t sampleRate = 0,
+                                    int format          = 0,
+                                    int channels        = 0,
+                                    uint32_t flags      = 0,
+                                    int sessionId       = 0,
+                                    int lpaSessionId    =-1);
+#endif
 
     /* Terminates the AudioTrack and unregisters it from AudioFlinger.
      * Also destroys all resources assotiated with the AudioTrack.
@@ -196,7 +212,22 @@ public:
                             const sp<IMemory>& sharedBuffer = 0,
                             bool threadCanCallJava = false,
                             int sessionId = 0);
-
+#ifdef WITH_QCOM_LPA
+    /* Initialize an AudioTrack and registers session Id for Tunneled audio decoding.
+     * Returned status (from utils/Errors.h) can be:
+     *  - NO_ERROR: successful intialization
+     *  - INVALID_OPERATION: AudioTrack is already intitialized
+     *  - BAD_VALUE: invalid parameter (channels, format, sampleRate...)
+     *  - NO_INIT: audio server or audio hardware not initialized
+     * */
+            status_t    set(int streamType      =-1,
+                            uint32_t sampleRate = 0,
+                            int format          = 0,
+                            int channels        = 0,
+                            uint32_t flags      = 0,
+                            int sessionId       = 0,
+                            int lpaSessionId    =-1);
+#endif
 
     /* Result of constructing the AudioTrack. This must be checked
      * before using any AudioTrack API (except for set()), using
@@ -483,6 +514,9 @@ private:
     uint32_t                mUpdatePeriod;
     bool                    mFlushed; // FIXME will be made obsolete by making flush() synchronous
     uint32_t                mFlags;
+#ifdef WITH_QCOM_LPA
+    audio_io_handle_t       mAudioSession;
+#endif
     int                     mSessionId;
     int                     mAuxEffectId;
     Mutex                   mLock;
@@ -493,3 +527,4 @@ private:
 }; // namespace android
 
 #endif // ANDROID_AUDIOTRACK_H
+

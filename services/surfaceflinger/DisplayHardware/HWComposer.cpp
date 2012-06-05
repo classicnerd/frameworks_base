@@ -93,6 +93,7 @@ status_t HWComposer::createWorkList(size_t numLayers) {
             free(mList);
             size_t size = sizeof(hwc_layer_list) + numLayers*sizeof(hwc_layer_t);
             mList = (hwc_layer_list_t*)malloc(size);
+            memset(mList, 0, size);
             mCapacity = numLayers;
         }
         mList->flags = HWC_GEOMETRY_CHANGED;
@@ -226,12 +227,13 @@ void HWComposer::dump(String8& result, char* buffer, size_t SIZE,
 }
 
 #ifdef QCOM_HDMI_OUT
-void HWComposer::enableHDMIOutput(bool enable) {
+void HWComposer::perform(int event, int value) {
     if (mHwc) {
-        mHwc->enableHDMIOutput(mHwc, enable);
+        mHwc->perform(mHwc, event, value);
     }
 }
 #endif
 
 // ---------------------------------------------------------------------------
 }; // namespace android
+

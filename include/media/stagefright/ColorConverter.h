@@ -132,3 +132,4 @@ int convert(ColorConvertParams src, ColorConvertParams dst,
 }  // namespace android
 
 #endif  // COLOR_CONVERTER_H_
+

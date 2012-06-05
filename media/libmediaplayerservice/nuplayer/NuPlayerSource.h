@@ -62,4 +62,3 @@ private:
 
 #endif  // NUPLAYER_SOURCE_H_
 
-
