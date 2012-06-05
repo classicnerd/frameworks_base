@@ -102,3 +102,4 @@ public class WimaxManagerConstants
     public static final int WIMAX_STATE_DISCONNECTED = 9;
 
 }
+

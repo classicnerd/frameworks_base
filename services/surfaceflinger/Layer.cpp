@@ -264,6 +264,9 @@ void Layer::setPerFrameData(hwc_layer_t* hwcl) {
         hwcl->handle = buffer->handle;
     }
 #ifdef QCOM_HARDWARE
+#ifdef TARGET8x50
+    updateLayerQcomFlags(LAYER_ASYNCHRONOUS_STATUS, !mSurfaceTexture->isSynchronousMode(), mLayerQcomFlags);
+#endif
     hwcl->flags = getPerFrameFlags(hwcl->flags, mLayerQcomFlags);
 #endif
 }

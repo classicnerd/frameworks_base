@@ -29,7 +29,6 @@
 #include "include/AACExtractor.h"
 #ifdef QCOM_HARDWARE
 #include "include/ExtendedExtractor.h"
-
 #include <media/stagefright/MediaDefs.h>
 #endif
 
@@ -99,9 +98,7 @@ bool DataSource::sniff(
                 *meta = newMeta;
 #ifdef QCOM_HARDWARE
                 if(*confidence >= 0.6f) {
-
                     LOGV("Ignore other Sniffers - confidence = %f , mimeType = %s",*confidence,mimeType->string());
-
                     char value[PROPERTY_VALUE_MAX];
                     if( (!strcasecmp((*mimeType).string(), MEDIA_MIMETYPE_CONTAINER_MPEG4)) &&
                         (property_get("mmp.enable.3g2", value, NULL)) &&
