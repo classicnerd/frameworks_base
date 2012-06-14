@@ -76,3 +76,4 @@ public class BatteryController extends BroadcastReceiver {
         }
     }
 }
+
